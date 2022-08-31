@@ -1,9 +1,11 @@
-from flask_wtf import FlaskForm
-from flask_wtf.file import FileField, FileAllowed
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextAreaField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from .models import User
+from wtforms import FlaskForm
+from wtforms.validators import DataRequired,Length,Email,EqualTo,ValidationError
+from wtforms import StringField,PasswordField,SubmitField,BooleanField
+from flaskblog.models import User
 from flask_login import current_user
+from flask_wtf.file import FileAllowed, FileField
+
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username',
@@ -58,13 +60,6 @@ class UpdateAccountForm(FlaskForm):
           user = User.query.filter_by(email=email.data).first()
           if user:
             raise ValidationError('That Email is alraedy Taken!')
-
-
-class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
-    content = TextAreaField('content', validators=[DataRequired(), FileAllowed(['jpeg' ,'png' ,'jpg'])])
-    submit = SubmitField('Post')
-
 
 class RequestResetForm(FlaskForm):
      email = StringField('Email',
